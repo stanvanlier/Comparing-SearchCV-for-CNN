@@ -55,8 +55,8 @@ def run_experiment(exp_i, exp, device_params, results_dir='results'):
     timer_callback = TimerStopping(total_seconds=800)
     callbacks = [delta_callback, timer_callback]
 
-    for trail_i in range(exp['trials']):
-#        clf.trail_i = trail_i
+    for trial_i in range(exp['trials']):
+#        clf.trial_i = trial_i
         evolved_estimator = exp['search'](
             clf, param_grid=exp['estimator_params_grid'],
             **exp['search_params'], **device_params['search_params'])
@@ -65,19 +65,19 @@ def run_experiment(exp_i, exp, device_params, results_dir='results'):
         endtime=time.time()
         y_predict_ga = evolved_estimator.predict(X_test)
         accuracy = accuracy_score(y_test, y_predict_ga)
-        trail_dir = f'{exp_dir}/trail{trail_i}'
-        os.makedirs(trail_dir)
+        trial_dir = f'{exp_dir}/trial{trial_i}'
+        os.makedirs(trial_dir)
         try:
             cv_results_df = pd.DataFrame.from_dict(evolved_estimator.cv_results_)
-            cv_results_df.to_csv(f'{trail_dir}/cv_results_.csv', index=False)   
+            cv_results_df.to_csv(f'{trial_dir}/cv_results_.csv', index=False)   
         except e:
             print("cv_results_.csv not saved, becuase:", e)
 
         d = data.serialization.search_estimator2dict(evolved_estimator)
         d['extra__exp_i'] = exp_i
-        d['extra__trail_i'] = trail_i
+        d['extra__trial_i'] = trial_i
         d['extra__starttime'] = starttime
         d['extra__endtime'] = endtime
         d['extra__test_accuracy'] = accuracy
-        data.serialization.savedict(f'{trail_dir}/evolved_estimator.json', d)
+        data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
 

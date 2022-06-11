@@ -53,7 +53,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
 #        self._y_test = None
 #        self.exp = None
 #        self.exp_i = None
-#        self.trail_i = None
+#        self.trial_i = None
 
         self._tr_param_names = [x for x in dir(self) if x.startswith('tr_')] 
         self._mo_param_names = [x for x in dir(self) if x.startswith('mo_')]
@@ -76,7 +76,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         arg_dict_train['set'] = 'train'
         arg_dict_train['ith_use'] = self._ith_use
 #        arg_dict_train['exp_i'] = self.exp_i
-#        arg_dict_train['trail_i'] = self.trail_i
+#        arg_dict_train['trial_i'] = self.trial_i
 
         # remove mo_ from the keywoard to pass it to the pytroch module
         mo_kwargs = {k[3:]: v for k,v in mo_kwargs.items()}
@@ -116,7 +116,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         arg_dict_test['set'] = 'test'
         arg_dict_test['ith_use'] = self._ith_use
 #        arg_dict_train['exp_i'] = self.exp_i
-#        arg_dict_train['trail_i'] = self.trail_i
+#        arg_dict_train['trial_i'] = self.trial_i
         if self._X_test is not None and self._y_test is not None:
 #            x_test, y_test = data.utils.subproblem(self._X_test, self._y_test, self.classes_)
 #            y_test = data.utils.sequential_lables(y_test, self.classes_)
