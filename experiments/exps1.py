@@ -8,6 +8,10 @@ from sklearn_genetic import GASearchCV
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
+problems = subpowerset([1,2,3,4,5], minlen=2, maxlen=2)
+print('Making experiments for each of these class subselections of the dataset: ')
+print(problems)
+
 experiments = [{
         # --- Number of times this experiment is repeated ---
         'trials': 1, 
@@ -35,7 +39,7 @@ experiments = [{
         },
         # varying hyperparameters
         'estimator_params_grid': {
-            # training process hyper parameters
+            # training process hyperparameters
 #            'tr_criterion': Categorical(['NLLLoss']),
 #            'tr_optimizer': Categorical(['Adam']),
             'tr_lr': Continuous(0, 0.5),
@@ -61,5 +65,5 @@ experiments = [{
             algorithm="eaSimple",
 
         ),
-    } for problem_classes in subpowerset([1,2,3,4,5], 2,2)]
+    } for problem_classes in problems]
 
