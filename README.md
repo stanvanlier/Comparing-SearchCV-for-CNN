@@ -74,7 +74,7 @@ variable can be defined in the notebook as a `list` or `dict`, where the
 `dict`s contain all the required keys. For an example see [experiments/exps1.py]()
 
 
-## Option 3: Run localy
+## Option 3: Run locally
 
 ### Setup
 
