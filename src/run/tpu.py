@@ -9,6 +9,7 @@ import torch_xla.utils.utils as xu
 #SERIAL_EXEC = xmp.MpSerialExecutor()
 
 from time import sleep
+import os
 
 from . import run
 
@@ -37,6 +38,7 @@ def main(exps, batch_size=1024):
                 'n_jobs':1,
                 'pre_dispatch':1,
                 'verbose':False,
+                'error_score':'raise',
             }
         }
         exp_counter = 0
