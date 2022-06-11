@@ -81,7 +81,7 @@ importlib.reload(experiments.expsX)
 
 Instead of using `from experiments.expsX import experiments`, the `experiments`
 variable can be defined in the notebook as a `list` or `dict`, where the
-`dict`s contain all the required keys. For an example see [experiments/exps1.py]()
+`dict`s contain all the required keys. For an example see [](experiments/exps1.py)
 
 
 ## Option 3: Run locally
