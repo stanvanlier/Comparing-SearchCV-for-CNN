@@ -3,9 +3,9 @@
 Choose which experiments to run and import (option 1). Alternatively, the list
 can be defined in the notebook itself (option 2). Or run it locally (option 3).
 
-## Option 1: Using one of the defined [epxeriemnts](experiments/) list
+## Option 1: Using one of the predefined [epxeriments](experiments/)
 
-Paste the following in a notebook and replace `X` by the number of the
+Paste the following in a notebook and replace `X` by the number of
 experiments to run.
 
 ### For CPU:
@@ -67,11 +67,11 @@ from experiments.expsX import experiments
 main(experiments, batch_size=1024)
 ```
 
-## Option 2: Definding a new experiments list
+## Option 2: Defining a new experiments list
 
-Instead of `from experiments.expsX import experiments` the `experiments`
-variable can be defined in the notebook as a `list` of `dict`s where the
-`dics`s contain all the reqruied keys. For an exampple see the file [experiments/exps1.py]()
+Instead of using `from experiments.expsX import experiments`, the `experiments`
+variable can be defined in the notebook as a `list` or `dict`, where the
+`dict`s contain all the required keys. For an example see [experiments/exps1.py]()
 
 
 ## Option 3: Run localy
