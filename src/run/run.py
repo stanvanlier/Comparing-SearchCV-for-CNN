@@ -55,7 +55,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results'):
     timer_callback = TimerStopping(total_seconds=800)
     callbacks = [delta_callback, timer_callback]
 
-    for trail_i in range(exp['trails']):
+    for trail_i in range(exp['trials']):
 #        clf.trail_i = trail_i
         evolved_estimator = exp['search'](
             clf, param_grid=exp['estimator_params_grid'],

@@ -10,7 +10,7 @@ from src.run.run import subpowerset
 
 experiments = [{
         # --- Number of times this experiment is repeated ---
-        'trails': 1, 
+        'trials': 1, 
 
         # --- Dataset as a subset of some it's targets
         'dataset': 'MNIST',
