@@ -67,6 +67,16 @@ from experiments.expsX import experiments
 main(experiments, batch_size=1024)
 ```
 
+### Pulling new versions without restarting runtime
+
+```python
+!cd Comparing-SearchCV-for-CNN/ && git pull && cd ..
+
+import importlib
+importlib.reload(experiments.expsX)
+#importlib.reload(src.run.tpu)
+```
+
 ## Option 2: Defining a new experiments list
 
 Instead of using `from experiments.expsX import experiments`, the `experiments`
