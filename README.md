@@ -3,7 +3,7 @@
 Choose which experiments to run and import (option 1). Alternatively, the list
 can be defined in the notebook itself (option 2). Or run it locally (option 3).
 
-## Option 1: Using one of the predefined [epxeriments](experiments/)
+## Option 1: Using one of the predefined [experiments](experiments/)
 
 Paste the following in a notebook and replace `X` by the number of
 experiments to run.
@@ -74,7 +74,7 @@ variable can be defined in the notebook as a `list` or `dict`, where the
 `dict`s contain all the required keys. For an example see [experiments/exps1.py]()
 
 
-## Option 3: Run localy
+## Option 3: Run locally
 
 ### Setup
 
