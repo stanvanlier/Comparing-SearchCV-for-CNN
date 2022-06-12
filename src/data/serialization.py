@@ -3,7 +3,7 @@ from numpyencoder import NumpyEncoder
 
 def savedict(filename, d):
     with open(filename, 'w') as f:
-        json.dump(d, f, cls=NumpyEncoder)
+        json.dump(d, f, cls=NumpyEncoder, indent=2)
 
 def search_estimator2dict(est):
     attrs_to_get = [

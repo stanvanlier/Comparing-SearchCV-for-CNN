@@ -1,8 +1,8 @@
+from itertools import chain
 from sklearn_genetic.space import Categorical, Integer, Continuous
 from sklearn.metrics import accuracy_score
 from sklearn import model_selection
-from sklearn_genetic.callbacks import DeltaThreshold, TimerStopping
-
+from sklearn_genetic import callbacks
 from sklearn_genetic import GASearchCV
 
 from src.estimators.cnn_classifier import CNNClassifier
@@ -12,7 +12,7 @@ problems = subpowerset([1,2,3,4,5], minlen=2, maxlen=2)
 print('Making experiments for each of these class subselections of the dataset: ')
 print(problems)
 
-experiments = [{
+experiments = chain({
         # --- Number of times this experiment is repeated ---
         'trials': 1, 
 
@@ -65,5 +65,7 @@ experiments = [{
             algorithm="eaSimple",
 
         ),
-    } for problem_classes in problems]
+        'search_callbacks': [ callbacks.DeltaThreshold(threshold=1e-4, metric="fitness"),
+                              callbacks.TimerStopping(total_seconds=800) ],
+    } for problem_classes in problems)
 
