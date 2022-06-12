@@ -8,8 +8,8 @@ from sklearn_genetic import GASearchCV
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
-problems = subpowerset([1,2,3,4,5], minlen=2, maxlen=2)
-print('Making experiments for each of these class subselections of the dataset: ')
+problems = subpowerset([1,7,5,6,8,9], minlen=2, maxlen=3)
+print(f'Making {len(problems)} experiments for each of these class subselections of the dataset: ')
 print(problems)
 
 experiments = chain({
