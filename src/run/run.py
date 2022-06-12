@@ -67,7 +67,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
 
         pred_proba = evolved_estimator.predict_proba(X_test)
         np.save(f'{trial_dir}/best_pred_proba', pred_proba, allow_pickle=False)
-        np.savetxt(f'{trial_dir}/best_pred_proba', pred_proba)
+        np.savetxt(f'{trial_dir}/best_pred_proba.txt', pred_proba)
 
         y_predict_ga = evolved_estimator.predict(X_test)
         accuracy = accuracy_score(y_test, y_predict_ga)
