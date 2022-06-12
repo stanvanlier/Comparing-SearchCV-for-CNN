@@ -31,7 +31,7 @@ def subpowerset(iterable, minlen=0, maxlen=None):
     return list(chain.from_iterable(combinations(s, r) for r in range(minlen, maxlen+1)))
 
 
-def run_experiment(exp_i, exp, device_params, results_dir='results'):
+def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str=''):
     (X_train, y_train), (X_test, y_test) = data.utils.load_dataset(exp['dataset'],
         exp['classes'], new_sequential_classes=True)
     now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
@@ -66,10 +66,12 @@ def run_experiment(exp_i, exp, device_params, results_dir='results'):
 
         pred_proba = evolved_estimator.predict_proba(X_test)
         np.save(f'{trial_dir}/best_pred_proba', pred_proba, allow_pickle=False)
+        np.savetxt(f'{trial_dir}/best_pred_proba', pred_proba)
 
         y_predict_ga = evolved_estimator.predict(X_test)
         accuracy = accuracy_score(y_test, y_predict_ga)
         d = data.serialization.search_estimator2dict(evolved_estimator)
+        d['extra__extra_str'] = extra_str
         d['extra__dataset'] = exp['dataset']
         d['extra__classes'] = exp['classes']
         d['extra__exp_i'] = exp_i
@@ -80,9 +82,10 @@ def run_experiment(exp_i, exp, device_params, results_dir='results'):
         data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
     
     shutil.make_archive(f'{exp_dir}', 'zip', exp_dir)
-    try:
-        from google.colab import files
-        files.download(f"{exp_dir}.zip")
-    except:
-        print(f'{exp_dir}.zip was not downloaded automticaly. Download it manualy from the menu.')
+    print(f'    {exp_dir}.zip can now be downloaded manualy from the menu. ({extra_str})')
+#    try:
+#        from google.colab import files
+#        files.download(f"{exp_dir}.zip")
+#    except:
+#        print(f'{exp_dir}.zip was not downloaded automticaly. Download it manualy from the menu.')
 

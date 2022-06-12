@@ -1,6 +1,6 @@
 from  . import run
 
-def main(exps, batch_size=256):
+def main(exp_q, batch_size=256):
     device_params = {
         'estimator_params': {
             'tr_device':'cpu',
@@ -14,5 +14,6 @@ def main(exps, batch_size=256):
 #            'log_config':None,
         }
     }
-    for i, e in enumerate(exps):
-        run.run_experiment(i, e, device_params)
+    while not exp_q.empty():
+        i, exp = exp_q.get()
+        run.run_experiment(i, exp, device_params, extra_str='cpu')

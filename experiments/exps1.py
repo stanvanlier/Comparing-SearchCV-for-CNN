@@ -1,4 +1,4 @@
-from itertools import chain
+from multiprocessing import Queue
 from sklearn_genetic.space import Categorical, Integer, Continuous
 from sklearn.metrics import accuracy_score
 from sklearn import model_selection
@@ -12,7 +12,9 @@ problems = subpowerset([1,7,5,6,8,9], minlen=2, maxlen=3)
 print(f'Making {len(problems)} experiments for each of these class subselections of the dataset: ')
 print(problems)
 
-experiments = chain({
+experiments = Queue()
+for i, problem_classes in enumerate(problems):
+    experiments.put((i, {
         # --- Number of times this experiment is repeated ---
         'trials': 1, 
 
@@ -67,5 +69,5 @@ experiments = chain({
         ),
         'search_callbacks': [ callbacks.DeltaThreshold(threshold=1e-4, metric="fitness"),
                               callbacks.TimerStopping(total_seconds=800) ],
-    } for problem_classes in problems)
+    }))
 

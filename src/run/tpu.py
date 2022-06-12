@@ -14,13 +14,7 @@ import os
 
 from . import run
 
-from multiprocessing import Queue
-
-def main(exps, batch_size=1024):
-    exp_q = Queue()
-    for i, exp in enumerate(exps):
-        exp_q.put((i,exp))
-
+def main(exp_q, batch_size=1024):
     FLAGS = {}
     FLAGS['batch_size'] = batch_size
     # FLAGS['log_steps'] = 20
@@ -47,7 +41,7 @@ def main(exps, batch_size=1024):
             i, exp = exp_q.get()
             exp_counter += 1
             print(rank, "is going to run exp", i,":", exp)
-            run.run_experiment(i, exp, device_params, results_dir=f'resutls_tpu{rank}')
+            run.run_experiment(i, exp, device_params, results_dir=f'resutls_tpu{rank}', extra_str=f'tpu{rank}')
             print(rank, "exp", i ,"done, total ", exp_counter, "done until now")
 
         print("core", rank, 'is done, it ran', exp_counter, 'experiments')

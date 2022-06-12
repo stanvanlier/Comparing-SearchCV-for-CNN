@@ -1,6 +1,6 @@
 from . import run
 
-def main(exps, batch_size=512, device='cuda'):
+def main(exp_q, batch_size=512, device='cuda'):
     device_params = {
         'estimator_params': {
             'tr_device':device,
@@ -13,5 +13,6 @@ def main(exps, batch_size=512, device='cuda'):
             'error_score':'raise',
         }
     }
-    for i, e in enumerate(exps):
-        run.run_experiment(i, e, device_params)
+    while not exp_q.empty():
+        i, exp = exp_q.get()
+        run.run_experiment(i, exp, device_params, extra_str='gpu')

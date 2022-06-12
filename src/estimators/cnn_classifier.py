@@ -96,8 +96,8 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
             arg_dict['test_end_time'] = None
             test_loss, test_acc = None, None
         arg_dict['train_loss'] = train_loss
-        arg_dict['train_accuracy'] = train_acc
         arg_dict['test_loss'] = test_loss
+        arg_dict['train_accuracy'] = train_acc
         arg_dict['test_accuracy'] = test_acc
         now_dt = datetime.now()
         now_str = now_dt.strftime("%Y%m%dT%H%M%S.%s")
