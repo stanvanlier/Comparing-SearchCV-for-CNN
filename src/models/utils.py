@@ -51,6 +51,7 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
             losses.append(loss.item()*batch_len)
             accuracies.append(
                 (output.detach().argmax(1) == target).float().mean().item()*batch_len)
+    optimizer.zero_grad()
     loss = sum(losses)/total_samples
     accuracy = sum(accuracies)/total_samples
     return loss, accuracy
@@ -74,6 +75,7 @@ def predict(model, batch_size, device, X):
 def evaluate(model, batch_size, device, X, y, criterion):
     output = predict(model, batch_size, device, X)
     y = data.utils.ensure_tensors(y)[0]
-    loss = criterion(output, y).item()
-    accuracy = (output.argmax(1) == y).float().mean().item()
+    with torch.no_grad():
+        loss = criterion(output, y).item()
+        accuracy = (output.argmax(1) == y).float().mean().item()
     return loss, accuracy
