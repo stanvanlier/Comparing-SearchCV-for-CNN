@@ -35,7 +35,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
     (X_train, y_train), (X_test, y_test) = data.utils.load_dataset(exp['dataset'],
         exp['classes'], new_sequential_classes=True)
     now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
-    exp_str = 'exp{exp_i}_{now_str}'
+    exp_str = f'exp{exp_i}_{now_str}'
     exp_dir = f'{results_dir}/{exp_str}'
     print(f"staring experiment {exp_i}. Saving in {exp_dir}")
     os.makedirs(exp_dir)
