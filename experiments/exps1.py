@@ -16,7 +16,7 @@ experiments = Queue()
 for i, problem_classes in enumerate(problems):
     experiments.put((i, {
         # --- Number of times this experiment is repeated ---
-        'trials': 1, 
+        'trials': 3, 
 
         # --- Dataset as a subset of some it's targets
         'dataset': 'MNIST',

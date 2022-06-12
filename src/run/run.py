@@ -35,7 +35,8 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
     (X_train, y_train), (X_test, y_test) = data.utils.load_dataset(exp['dataset'],
         exp['classes'], new_sequential_classes=True)
     now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
-    exp_dir = f'{results_dir}/exp{exp_i}_{now_str}'
+    exp_str = 'exp{exp_i}_{now_str}'
+    exp_dir = f'{results_dir}/{exp_str}'
     print(f"staring experiment {exp_i}. Saving in {exp_dir}")
     os.makedirs(exp_dir)
     with open(f'{exp_dir}/exp.dict', 'w') as f:
@@ -80,9 +81,11 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         d['extra__endtime'] = endtime
         d['extra__test_accuracy'] = accuracy
         data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
-    
-    shutil.make_archive(f'{exp_dir}', 'zip', exp_dir)
-    print(f'    {exp_dir}.zip can now be downloaded manualy from the menu. ({extra_str})')
+    os.makedirs('ready_to_be_downloaded', exist_ok=True)
+    sort_prefix = datetime.now().strftime("%dT%H%M%S")
+#    shutil.make_archive(f'{exp_dir}', 'zip', f'ready_to_be_downloaded/{sort_prefix}_{exp_str}')
+    shutil.make_archive(f'ready_to_be_downloaded/{sort_prefix}_{exp_str}', 'zip', f'{exp_dir}')
+    print(f'  !! exp{exp_i} ready!       {sort_prefix}_{exp_str}.zip can now be downloaded manualy via the menu from ready_to_be_downloaded/. ({extra_str})')
 #    try:
 #        from google.colab import files
 #        files.download(f"{exp_dir}.zip")
