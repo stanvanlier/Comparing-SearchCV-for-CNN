@@ -82,9 +82,9 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         d['extra__test_accuracy'] = accuracy
         data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
     os.makedirs('ready_to_be_downloaded', exist_ok=True)
-    sort_prefix = datetime.now().strftime("%dT%H%M%S")
+    sort_prefix = datetime.now().strftime("%d%H%M%S")
 #    shutil.make_archive(f'{exp_dir}', 'zip', f'ready_to_be_downloaded/{sort_prefix}_{exp_str}')
-    shutil.make_archive(f'ready_to_be_downloaded/{sort_prefix}_{exp_str}', 'zip', f'{exp_dir}')
+    shutil.make_archive(f'ready_to_be_downloaded/{sort_prefix}-{exp_i}-{exp_str}', 'zip', f'{exp_dir}')
     print(f'  !! exp{exp_i} ready!       {sort_prefix}_{exp_str}.zip can now be downloaded manualy via the menu from ready_to_be_downloaded/. ({extra_str})')
 #    try:
 #        from google.colab import files
