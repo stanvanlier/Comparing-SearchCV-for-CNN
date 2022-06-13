@@ -29,7 +29,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         #Note: n_classes can not be set, since it is determined on number of targets in the dataset.
      ):
         self._save_path = _save_path
-        now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
+        now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%f")
         self._X_test = _X_test
         self._y_test = _y_test
 
@@ -100,7 +100,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         arg_dict['train_accuracy'] = train_acc
         arg_dict['test_accuracy'] = test_acc
         now_dt = datetime.now()
-        now_str = now_dt.strftime("%Y%m%dT%H%M%S.%s")
+        now_str = now_dt.strftime("%Y%m%dT%H%M%S.%f")
         arg_dict['now_dt'] = now_dt
         arg_dict['now_str'] = now_str
         pd.DataFrame([arg_dict]).to_csv(f'{self._save_path}/{now_str}.csv', index=False)

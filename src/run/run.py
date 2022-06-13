@@ -34,7 +34,7 @@ def subpowerset(iterable, minlen=0, maxlen=None):
 def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str=''):
     (X_train, y_train), (X_test, y_test) = data.utils.load_dataset(exp['dataset'],
         exp['classes'], new_sequential_classes=True)
-    now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
+    now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%f")
     exp_str = f'exp{exp_i}_{now_str}'
     exp_dir = f'{results_dir}/{exp_str}'
     print(f"staring experiment {exp_i}. Saving in {exp_dir}")
@@ -43,7 +43,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         f.write(pprint.pformat(exp))
     
     for trial_i in range(exp['trials']):
-        now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%s")
+        now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%f")
         trial_dir = f'{exp_dir}/trial{trial_i}_{now_str}'
         estimators_dir = f'{trial_dir}/estimators' 
         os.makedirs(estimators_dir)
