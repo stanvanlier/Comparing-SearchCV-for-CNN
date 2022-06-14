@@ -24,24 +24,24 @@ def main(exp_q, batch_size=1024):
         torch.set_default_tensor_type('torch.FloatTensor')
         device = xm.xla_device()
         print(rank, device, repr(device), str(device))
-        device_params = {
-            'estimator_params': {
-                'tr_device':device,
-                'tr_batch_size':flags['batch_size'],
-            },
-            'search_params': {
-                'n_jobs':1,
-                'pre_dispatch':1,
-                'verbose':False,
-                'error_score':'raise',
-            }
-        }
         exp_counter = 0
         while not exp_q.empty():
             i, exp = exp_q.get()
-            exp_counter += 1
+            device_params = {
+                'estimator_params': {
+                    'tr_device':xm.xla_device(),
+                    'tr_batch_size':flags['batch_size'],
+                },
+                'search_params': {
+                    'n_jobs':1,
+                    'pre_dispatch':1,
+                    'verbose':False,
+                    'error_score':'raise',
+                }
+            }
             print(rank, "is going to run exp", i,":", exp)
             run.run_experiment(i, exp, device_params, results_dir=f'resutls_tpu{rank}', extra_str=f'tpu{rank}')
+            exp_counter += 1
             print(rank, "exp", i ,"done, total ", exp_counter, "done until now")
 
         print("core", rank, 'is done, it ran', exp_counter, 'experiments')
