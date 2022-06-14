@@ -70,7 +70,6 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         self.model_ = models.cnn.CNN(first_channels=X.shape[1], 
                                      n_classes=len(self.classes_), 
                                      **mo_kwargs)
-        self.model_.to(self.tr_device)
 
         Optim = getattr(torch.optim, self.tr_optimizer)
         self.optimizer_ = Optim(self.model_.parameters(), lr=self.tr_lr)

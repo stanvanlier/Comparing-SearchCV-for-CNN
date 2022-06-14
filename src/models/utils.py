@@ -35,6 +35,7 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
                                     shuffle=True, drop_last=False),
         device)
 
+    model.to(device)
     model.train()
     losses = []
     accuracies = []
@@ -51,6 +52,7 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
             losses.append(loss.item()*batch_len)
             accuracies.append(
                 (output.detach().argmax(1) == target).float().mean().item()*batch_len)
+    model.to('cpu')
     optimizer.zero_grad()
     loss = sum(losses)/total_samples
     accuracy = sum(accuracies)/total_samples
@@ -64,11 +66,13 @@ def predict(model, batch_size, device, X):
         torch.utils.data.DataLoader(dataset, batch_size=batch_size),
         device)
     outputs = []
+    model.to(device)
     model.eval()
     with torch.no_grad():
         for (in_data,) in dataloader:
             output = model(in_data)
             outputs.append(output.cpu())
+    model.to('cpu')
     return torch.cat(outputs)
 
 
