@@ -34,6 +34,7 @@ def subpowerset(iterable, minlen=0, maxlen=None):
 def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str=''):
     (X_train, y_train), (X_test, y_test) = data.utils.load_dataset(exp['dataset'],
         exp['classes'], new_sequential_classes=True)
+    X_test, y_test = torch.from_numpy(X_test), torch.from_numpy(y_test)
     now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%f")
     exp_str = f'exp{exp_i}_{now_str}'
     exp_dir = f'{results_dir}/{exp_str}'
@@ -86,6 +87,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
 #    shutil.make_archive(f'{exp_dir}', 'zip', f'ready_to_be_downloaded/{sort_prefix}_{exp_str}')
     shutil.make_archive(f'ready_to_be_downloaded/{sort_prefix}-{exp_i}-{exp_str}', 'zip', f'{exp_dir}')
     print(f'  !! exp{exp_i} ready!       {sort_prefix}_{exp_str}.zip can now be downloaded manualy via the menu from ready_to_be_downloaded/. ({extra_str})')
+    return evolved_estimator
 #    try:
 #        from google.colab import files
 #        files.download(f"{exp_dir}.zip")

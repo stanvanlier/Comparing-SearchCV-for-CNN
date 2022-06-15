@@ -4,6 +4,55 @@ import torch.nn.functional as F
 
 from .. import data
 
+import os
+from glob import glob
+
+from collections import OrderedDict
+
+# torch does only have mappings torch.<Type>Storage => torch.dtype, not
+# the other way around, so we create a torch.dtype => torch.<Type>Storage.
+dtype2TypedStorage = {ts.dtype: ts
+                      for ts in torch.storage._TypedStorage.__subclasses__()
+                      # filter only cpu storage
+                      if ts.__module__ == 'torch'}
+
+def init_memory_mapped_tensor(path, shape, dtype):
+    """Iinitialize a new empty memory mapped tensor"""
+    shape_str = "x".join(str(a) for a in shape)
+    TS = dtype2TypedStorage[dtype]
+    dtype_str = str(dtype).split('.')[-1]
+    fname = f"{path}.{shape_str}.{dtype_str}"
+    shape = torch.Size(shape)
+    disk_storage = TS.from_file(fname, True, shape.numel())
+    return torch.tensor(disk_storage, dtype=dtype).reshape(shape)
+
+def to_memory_mapped_tensor(path, tensor):
+    """Copies tensor to disk, and returns the new memory mapped version"""
+    mmaptensor = init_memory_mapped_tensor(path, tensor.shape, tensor.dtype)
+    return mmaptensor.copy_(tensor)
+
+def load_memory_mapped_tensor(fname):
+    assert os.path.isfile(fname)
+    *path, shape_str, dtype_str = fname.split(".")
+    dtype = getattr(torch, dtype_str.lower())  # get dtype from torch module (only cpu variants are directly in torch)
+    assert dtype in dtype2TypedStorage
+    shape = torch.Size(int(a) for a in shape_str.split("x"))
+    path = ".".join(path)
+    return init_memory_mapped_tensor(path, shape, dtype)
+
+def load_memory_mapped_tensor_by_pattern(pattern):
+    match = glob(pattern)
+    if not match:
+        raise FileNotFoundError(pattern)
+    assert len(match) == 1 # check if pattern not ambiguous
+    fname = match[0]
+    return load_memory_mapped_tensor(fname)
+
+# TODO make function nested_tensors2flat_tensor_with_index
+def flat_tensor2nested_tensors(flat_tensor, index):
+    """handy to make a list of memory mapped tensors (from the same file) having varying lenghts"""
+    return [flat_tensor[index[i]:index[i+1]] for i in range(len(index)-1)]
+
 
 class DeviceDataLoader:
     def __init__(self, dataloader, device):
@@ -31,7 +80,7 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
     X, y = data.utils.ensure_tensors(X, y)
     dataset = torch.utils.data.TensorDataset(X, y)
     dataloader = wrapped_device_data_loader(
-        torch.utils.data.DataLoader(dataset, batch_size=batch_size, 
+        torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                     shuffle=True, drop_last=False),
         device)
 

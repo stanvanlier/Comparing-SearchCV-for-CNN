@@ -1,5 +1,6 @@
 **.swp
 results/
+ready_to_be_downloaded/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
