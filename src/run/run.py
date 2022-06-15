@@ -82,6 +82,8 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         d['extra__endtime'] = endtime
         d['extra__test_accuracy'] = accuracy
         data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
+        if trial_i != exp['trials']-1:
+            del evolved_estimator
     os.makedirs('ready_to_be_downloaded', exist_ok=True)
     sort_prefix = datetime.now().strftime("%d%H%M%S")
 #    shutil.make_archive(f'{exp_dir}', 'zip', f'ready_to_be_downloaded/{sort_prefix}_{exp_str}')
