@@ -48,7 +48,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         trial_dir = f'{exp_dir}/trial{trial_i}_{now_str}'
         estimators_dir = f'{trial_dir}/estimators' 
         os.makedirs(estimators_dir)
-        clf = exp['estimator'](_save_path=train_dir, _X_test=X_test, _y_test=y_test,
+        clf = exp['estimator'](_save_path=trial_dir, _X_test=X_test, _y_test=y_test,
             **exp['estimator_params'], **device_params['estimator_params'])
         evolved_estimator = exp['search'](
             clf, param_grid=exp['estimator_params_grid'],
