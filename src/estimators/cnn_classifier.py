@@ -69,7 +69,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         mo_kwargs = {k[3:]: v for k,v in mo_kwargs.items()}
         now_dt = datetime.now()
         now_str = now_dt.strftime("%Y%m%dT%H%M%S.%f")
-        self.model_ = models.cnn.CNN(mmap_path=f'{self._save_path}/mmap/{now_str}'
+        self.model_ = models.cnn.CNN(mmap_path=f'{self._save_path}/mmap/{now_str}',
                                      first_channels=X.shape[1],
                                      n_classes=len(self.classes_),
                                      **mo_kwargs)
