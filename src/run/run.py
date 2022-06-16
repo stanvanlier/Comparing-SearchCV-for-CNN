@@ -38,7 +38,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
     now_str = datetime.now().strftime("%Y%m%dT%H%M%S.%f")
     exp_str = f'exp{exp_i}_{now_str}'
     exp_dir = f'{results_dir}/{exp_str}'
-    print(f"staring experiment {exp_i}. Saving in {exp_dir}")
+    print(f"starting experiment {exp_i}. Saving in {exp_dir}")
     os.makedirs(exp_dir)
     with open(f'{exp_dir}/exp.dict', 'w') as f:
         f.write(pprint.pformat(exp))
@@ -64,7 +64,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
             cv_results_df = pd.DataFrame.from_dict(evolved_estimator.cv_results_)
             cv_results_df.to_csv(f'{trial_dir}/cv_results_.csv', index=False)   
         except e:
-            print("cv_results_.csv not saved, becuase:", e)
+            print("cv_results_.csv not saved, because:", e)
 
         pred_proba = evolved_estimator.predict_proba(X_test)
         np.save(f'{trial_dir}/best_pred_proba', pred_proba, allow_pickle=False)
@@ -95,4 +95,3 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
 #        files.download(f"{exp_dir}.zip")
 #    except:
 #        print(f'{exp_dir}.zip was not downloaded automticaly. Download it manualy from the menu.')
-
