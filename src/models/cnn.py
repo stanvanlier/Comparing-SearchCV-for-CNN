@@ -1,9 +1,13 @@
+import os
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from . import utils
+
 class CNN(nn.Module):
-    def __init__(self, n_conv_layers=2, first_channels=1, last_channels=20,
+    def __init__(self, mmap_path=None, n_conv_layers=2, first_channels=1, last_channels=20,
                  first_kernel_size=5, last_kernel_size=3, n_linear_layers=2, n_classes=10):
         super(CNN, self).__init__()
 
@@ -32,6 +36,18 @@ class CNN(nn.Module):
             self.linears.append( nn.Linear(in_features, out_features) )
             if li != n_linear_layers-1:
                 self.linears.append( nn.ReLU() )
+
+        if mmap_path is None:
+            mmap_path = 'mmap/' + datetime.now().strftime("%Y%m%dT%H%M%S.%f")
+        self.mmap_path = mmap_path
+
+    def mmap(self, mmap_path=None):
+        if mmap_path is None:
+            mmap_path  = self.mmap_path
+        os.makedirs(mmap_path, exist_ok=True)
+        self.cpu()
+        for n, p in self.named_parameters():
+            p.data = utils.to_memory_mapped_tensor(f'{mmap_path}/{n}', p.data)
 
     def forward(self, x):
         x = self.convs(x)

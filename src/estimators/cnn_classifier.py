@@ -67,10 +67,14 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
 
         # remove mo_ from the keywoard to pass it to the pytroch module
         mo_kwargs = {k[3:]: v for k,v in mo_kwargs.items()}
-        self.model_ = models.cnn.CNN(first_channels=X.shape[1], 
-                                     n_classes=len(self.classes_), 
+        now_dt = datetime.now()
+        now_str = now_dt.strftime("%Y%m%dT%H%M%S.%f")
+        self.model_ = models.cnn.CNN(mmap_path=f'{self._save_path}/mmap/{now_str}',
+                                     first_channels=X.shape[1],
+                                     n_classes=len(self.classes_),
                                      **mo_kwargs)
 
+        self.model_.to(self.tr_device)
         Optim = getattr(torch.optim, self.tr_optimizer)
         self.optimizer_ = Optim(self.model_.parameters(), lr=self.tr_lr)
 
@@ -98,11 +102,9 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         arg_dict['test_loss'] = test_loss
         arg_dict['train_accuracy'] = train_acc
         arg_dict['test_accuracy'] = test_acc
-        now_dt = datetime.now()
-        now_str = now_dt.strftime("%Y%m%dT%H%M%S.%f")
         arg_dict['now_dt'] = now_dt
         arg_dict['now_str'] = now_str
-        pd.DataFrame([arg_dict]).to_csv(f'{self._save_path}/{now_str}.csv', index=False)
+        pd.DataFrame([arg_dict]).to_csv(f'{self._save_path}/estimators/{now_str}.csv', index=False)
         # Return the classifier
         return self
 

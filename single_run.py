@@ -1,4 +1,3 @@
-from multiprocessing import Queue
 from sklearn_genetic.space import Categorical, Integer, Continuous
 from sklearn.metrics import accuracy_score
 from sklearn import model_selection
@@ -6,8 +5,8 @@ from sklearn_genetic import callbacks
 from sklearn_genetic import GASearchCV
 
 from src.estimators.cnn_classifier import CNNClassifier
-from src.run.run import subpowerset
 from src.run import run
+from src import models
 
 batch_size=256
 

@@ -36,7 +36,10 @@ def load_memory_mapped_tensor(fname):
     *path, shape_str, dtype_str = fname.split(".")
     dtype = getattr(torch, dtype_str.lower())  # get dtype from torch module (only cpu variants are directly in torch)
     assert dtype in dtype2TypedStorage
-    shape = torch.Size(int(a) for a in shape_str.split("x"))
+    if shape_str == '':
+        shape = torch.Size()
+    else:
+        shape = torch.Size(int(a) for a in shape_str.split("x"))
     path = ".".join(path)
     return init_memory_mapped_tensor(path, shape, dtype)
 
@@ -101,8 +104,9 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
             losses.append(loss.item()*batch_len)
             accuracies.append(
                 (output.detach().argmax(1) == target).float().mean().item()*batch_len)
-    model.to('cpu')
     optimizer.zero_grad()
+    #model.cpu()
+    model.mmap()
     loss = sum(losses)/total_samples
     accuracy = sum(accuracies)/total_samples
     return loss, accuracy
@@ -121,7 +125,8 @@ def predict(model, batch_size, device, X):
         for (in_data,) in dataloader:
             output = model(in_data)
             outputs.append(output.cpu())
-    model.to('cpu')
+    #model.cpu()
+    model.mmap()
     return torch.cat(outputs)
 
 
