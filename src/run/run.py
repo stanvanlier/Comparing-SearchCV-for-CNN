@@ -1,6 +1,6 @@
 from sklearn_genetic import GASearchCV
 from sklearn_genetic.space import Categorical, Integer, Continuous
-from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV, RandomizedSearchCV
 from sklearn.neural_network import MLPClassifier
 from sklearn.datasets import load_digits
 from sklearn.metrics import accuracy_score
@@ -50,29 +50,44 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         os.makedirs(estimators_dir)
         clf = exp['estimator'](_save_path=trial_dir, _X_test=X_test, _y_test=y_test,
             **exp['estimator_params'], **device_params['estimator_params'])
-        evolved_estimator = exp['search'](
-            clf, param_grid=exp['estimator_params_grid'],
-            **exp['search_params'], **device_params['search_params'])
+        
+        srch_str = str(exp['search'])
         starttime=time.time()
-        evolved_estimator.fit(X_train, y_train, callbacks=exp['search_callbacks'])
+        if 'GASearchCV' in srch_str:
+            search = exp['search'](
+                clf, param_grid=exp['estimator_params_grid'],
+                **exp['search_params'], **device_params['search_params'])
+            search.fit(X_train, y_train, callbacks=exp['search_callbacks'])
+        elif 'GridSearchCV' in srch_str:
+            search = exp['search'](clf,
+                                      param_distributions=exp['estimator_params_grid'],
+                                      **exp['search_params'],
+                                      **device_params['search_params'])
+            search.fit(X_train, y_train)
+        elif 'RandomizedSearchCV' in srch_str:
+            search = exp['search'](clf,
+                                      param_distributions=exp['estimator_params_grid'],
+                                      **exp['search_params'],
+                                      **device_params['search_params'])
+            search.fit(X_train, y_train)
         endtime=time.time()
-
+        
         (pd.concat([pd.read_csv(x) for x in glob(f'{estimators_dir}/*')], ignore_index=True)
         ).to_csv(f'{estimators_dir}.csv', index=False)
 
         try:
-            cv_results_df = pd.DataFrame.from_dict(evolved_estimator.cv_results_)
+            cv_results_df = pd.DataFrame.from_dict(search.cv_results_)
             cv_results_df.to_csv(f'{trial_dir}/cv_results_.csv', index=False)   
         except e:
             print("cv_results_.csv not saved, because:", e)
 
-        pred_proba = evolved_estimator.predict_proba(X_test)
+        pred_proba = search.predict_proba(X_test)
         np.save(f'{trial_dir}/best_pred_proba', pred_proba, allow_pickle=False)
         np.savetxt(f'{trial_dir}/best_pred_proba.txt', pred_proba)
 
-        y_predict_ga = evolved_estimator.predict(X_test)
-        accuracy = accuracy_score(y_test, y_predict_ga)
-        d = data.serialization.search_estimator2dict(evolved_estimator)
+        y_predict = search.predict(X_test)
+        accuracy = accuracy_score(y_test, y_predict)
+        d = data.serialization.search_estimator2dict(search)
         d['extra__extra_str'] = extra_str
         d['extra__dataset'] = exp['dataset']
         d['extra__classes'] = exp['classes']
@@ -81,17 +96,12 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
         d['extra__starttime'] = starttime
         d['extra__endtime'] = endtime
         d['extra__test_accuracy'] = accuracy
-        data.serialization.savedict(f'{trial_dir}/evolved_estimator.json', d)
+        data.serialization.savedict(f'{trial_dir}/search.json', d)
         if trial_i != exp['trials']-1:
-            del evolved_estimator
+            del search
+
     os.makedirs('ready_to_be_downloaded', exist_ok=True)
     sort_prefix = datetime.now().strftime("%d%H%M%S")
-#    shutil.make_archive(f'{exp_dir}', 'zip', f'ready_to_be_downloaded/{sort_prefix}_{exp_str}')
     shutil.make_archive(f'ready_to_be_downloaded/{sort_prefix}-{exp_i}-{exp_str}', 'zip', f'{exp_dir}')
     print(f'  !! exp{exp_i} ready!       {sort_prefix}_{exp_str}.zip can now be downloaded manualy via the menu from ready_to_be_downloaded/. ({extra_str})')
-    return evolved_estimator
-#    try:
-#        from google.colab import files
-#        files.download(f"{exp_dir}.zip")
-#    except:
-#        print(f'{exp_dir}.zip was not downloaded automticaly. Download it manualy from the menu.')
+    return search
