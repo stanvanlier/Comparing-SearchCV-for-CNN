@@ -26,6 +26,11 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
             mo_first_kernel_size=5,
             mo_last_kernel_size=3, 
             mo_n_linear_layers=2, 
+
+            mo_pooling='MaxPool2d', 
+            mo_pool_size=2, 
+            mo_activation='ReLU', 
+            mo_conv_order="pan",
         #Note: n_classes can not be set, since it is determined on number of targets in the dataset.
      ):
         self._save_path = _save_path
@@ -45,6 +50,11 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         self.mo_first_kernel_size = mo_first_kernel_size
         self.mo_last_kernel_size = mo_last_kernel_size
         self.mo_n_linear_layers = mo_n_linear_layers
+
+        self.mo_pooling=mo_pooling
+        self.mo_pool_size=mo_pool_size
+        self.mo_activation=mo_activation
+        self.mo_conv_order=mo_conv_order
 
         self._ith_use = 0
 
@@ -73,8 +83,8 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
                                      first_channels=X.shape[1],
                                      n_classes=len(self.classes_),
                                      **mo_kwargs)
-
         self.model_.to(self.tr_device)
+
         Optim = getattr(torch.optim, self.tr_optimizer)
         self.optimizer_ = Optim(self.model_.parameters(), lr=self.tr_lr)
 
