@@ -46,6 +46,8 @@ from experiments.expsX import experiments
 main(experiments, batch_size=512)
 ```
 
+You can see a sample notebook in [notebooks/gpu.ipynb](notebooks/gpu.ipynb).
+
 ### For TPU:
 
 ```python
@@ -66,6 +68,8 @@ from experiments.expsX import experiments
 
 main(experiments, batch_size=1024)
 ```
+
+You can see a sample notebook in [notebooks/tpu.ipynb](notebooks/tpu.ipynb).
 
 ### Pulling new versions without restarting runtime
 
