@@ -6,7 +6,7 @@ can be defined in the notebook itself (option 2). Or run it locally (option 3).
 ## Option 1: Using one of the predefined [experiments](experiments/)
 
 Paste the following in a notebook and replace `X` by the number of
-experiments to run.
+the experiment to run.
 
 ### For CPU:
 
@@ -119,3 +119,9 @@ python download.py
 source venv/bin/active
 python main.py
 ```
+
+## Experiment results
+
+The results of a successful experiment will look like this:
+
+![experiment results](img/expResults.png?raw=true)
