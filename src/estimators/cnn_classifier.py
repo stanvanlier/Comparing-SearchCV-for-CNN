@@ -75,7 +75,7 @@ class CNNClassifier(BaseEstimator, ClassifierMixin):
         arg_dict['X_shape'] = X.shape
         arg_dict['ith_use'] = self._ith_use
 
-        # remove mo_ from the keywoard to pass it to the pytroch module
+        # remove mo_ from the keywoard to pass it to the pytorch module
         mo_kwargs = {k[3:]: v for k,v in mo_kwargs.items()}
         now_dt = datetime.now()
         now_str = now_dt.strftime("%Y%m%dT%H%M%S.%f")
