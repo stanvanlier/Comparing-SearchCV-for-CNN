@@ -27,6 +27,8 @@ from experiments.expsX import experiments
 main(experiments, batch_size=256)
 ```
 
+You can see a sample notebook in [notebooks/cpu.ipynb](notebooks/cpu.ipynb).
+
 ### For GPU:
 
 ```python
