@@ -60,7 +60,7 @@ def run_experiment(exp_i, exp, device_params, results_dir='results', extra_str='
             search.fit(X_train, y_train, callbacks=exp['search_callbacks'])
         elif 'GridSearchCV' in srch_str:
             search = exp['search'](clf,
-                                      param_distributions=exp['estimator_params_grid'],
+                                      param_grid=exp['estimator_params_grid'],
                                       **exp['search_params'],
                                       **device_params['search_params'])
             search.fit(X_train, y_train)

@@ -66,7 +66,7 @@ for i, problem_classes in enumerate(problems):
             crossover_probability=0.9,
             mutation_probability=0.03,
             algorithm="eaSimple",
-            verbose=1,
+            verbose=3,
             return_train_score=True,
         ),
         'search_callbacks': [ callbacks.DeltaThreshold(threshold=1e-4, metric="fitness"),
