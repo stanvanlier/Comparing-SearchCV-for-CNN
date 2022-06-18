@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn import model_selection
 from sklearn_genetic import callbacks
 from sklearn_genetic import GASearchCV
-from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV, RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
