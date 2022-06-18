@@ -8,7 +8,7 @@ from sklearn_genetic import GASearchCV
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
-problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=9, maxlen=10)
+problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=2, maxlen=10)
 #problems = [[0,1,2,3,4,5,6,7,8,9]]
 print(f'Making {len(problems)} experiments for each of these class subselections of the dataset: ')
 print(problems)
@@ -29,10 +29,10 @@ for i, problem_classes in enumerate(problems):
         # fixed hyperparameters
         'estimator_params': {
             # training process hyperparameters
-#            'tr_criterion': 'NLLLoss',
-#            'tr_optimizer': 'Adam',
+            'tr_criterion': 'NLLLoss',
+            'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
-            'tr_epochs': 3,
+            'tr_epochs': 10,
             # model's hyperparameters
 #            'mo_n_conv_layers': 3,
 #            'mo_last_channels': 20,
@@ -43,8 +43,8 @@ for i, problem_classes in enumerate(problems):
         # varying hyperparameters
         'estimator_params_grid': {
             # training process hyperparameters
-            'tr_criterion': Categorical(['NLLLoss','CrossEntropyLoss']),
-            'tr_optimizer': Categorical(['Adam','AdamW','Adamax','Adagrad','SGD']),
+#            'tr_criterion': Categorical(['NLLLoss','CrossEntropyLoss']),
+#            'tr_optimizer': Categorical(['Adam','AdamW','Adamax','Adagrad','SGD']),
             'tr_lr': Continuous(0, 0.5),
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
@@ -58,7 +58,7 @@ for i, problem_classes in enumerate(problems):
         # --- Search method with corresponding parameters ---
         'search': GASearchCV, #RandomizedSearchCV,
         'search_params': dict( 
-            cv=StratifiedKFold(n_splits=5, shuffle=True)
+            cv=StratifiedKFold(n_splits=5)
 #            cv=StratifiedShuffleSplit(n_splits=5, test_size=0.3),
             scoring="accuracy",
             population_size=10,
