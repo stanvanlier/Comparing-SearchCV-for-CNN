@@ -29,7 +29,7 @@ for i, problem_classes in enumerate(problems):
         # fixed hyperparameters
         'estimator_params': {
             # training process hyperparameters
-            'tr_criterion': 'NLLLoss',
+            'tr_criterion': 'CrossEntropyLoss',
             'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
             'tr_epochs': 10,
@@ -61,7 +61,7 @@ for i, problem_classes in enumerate(problems):
         # --- Search method with corresponding parameters ---
         'search': GASearchCV, #RandomizedSearchCV,
         'search_params': dict( 
-            cv=StratifiedKFold(n_splits=5)
+            cv=StratifiedKFold(n_splits=5),
 #            cv=StratifiedShuffleSplit(n_splits=5, test_size=0.3),
             scoring="accuracy",
             population_size=10,
