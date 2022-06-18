@@ -51,7 +51,7 @@ for i, problem_classes in enumerate(problems):
             'mo_n_conv_layers': Integer(1,3),
             'mo_last_channels': Integer(10,100),
             'mo_pooling': Categorical(['MaxPool2d', 'AvgPool2d']),
-            'mo_activation': Categorical(['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'GELU', 'SiLU', 'Tanh', 'Sigmoid']),
+            'mo_activation': Categorical(['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'Tanh', 'Sigmoid']),
             'mo_conv_order': Categorical(['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n']),
 #            'mo_first_kernel_size': Integer(4,6),
 #            'mo_last_kernel_size': Integer(2,5),
