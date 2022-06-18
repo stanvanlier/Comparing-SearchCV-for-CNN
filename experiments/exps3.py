@@ -43,7 +43,7 @@ for i, problem_classes in enumerate(problems):
         'estimator_params_grid': {
             # training process hyperparameters
             'tr_criterion': Categorical(['CrossEntropyLoss']),
-            'tr_optimizer': Categorical(['Adam','NAdam','Adamax','Adagrad','SGD','RMSprop']),
+            'tr_optimizer': Categorical(['Adam','SGD','RMSprop']),
             'tr_lr': Continuous(0, 0.5),
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
