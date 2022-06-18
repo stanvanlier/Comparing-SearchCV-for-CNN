@@ -56,17 +56,16 @@ for i, problem_classes in enumerate(problems):
         },
 
         # --- Search method with corresponding parameters ---
-        'search': GASearchCV,
+        'search': RandomizedSearchCV, #GASearchCV,
         'search_params': dict( 
 #            cv=model_selection.StratifiedKFold(n_splits=3, shuffle=True)
             cv=model_selection.StratifiedShuffleSplit(n_splits=5, test_size=0.3),
             scoring="accuracy",
-            population_size=10,
-            generations=10,
-            crossover_probability=0.9,
-            mutation_probability=0.03,
-            algorithm="eaSimple",
-            verbose=3,
+            #population_size=10,
+            #generations=10,
+            #crossover_probability=0.9,
+            #mutation_probability=0.03,
+            #algorithm="eaSimple",
             return_train_score=True,
         ),
         'search_callbacks': [ callbacks.DeltaThreshold(threshold=1e-4, metric="fitness"),
