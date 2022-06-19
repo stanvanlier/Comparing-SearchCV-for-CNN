@@ -49,7 +49,7 @@ histplot_for_params = [
 ('mo_conv_order', 'Order after Each Convolution'),
 ]
 
-plot_for_datasets = ['MNIST', 'SVHN']
+plot_for_datasets = ['SVHN', 'MNIST']
 
 # logy = True
 logy = False
