@@ -59,7 +59,7 @@ for i, problem_classes in enumerate(problems):
         },
 
         # --- Search method with corresponding parameters ---
-        'search': GASearchCV, #RandomizedSearchCV,
+        'search': RandomizedSearchCV, #GASearchCV,
         'search_params': dict( 
             cv=StratifiedKFold(n_splits=3),
 #            cv=StratifiedShuffleSplit(n_splits=5, test_size=0.3),
