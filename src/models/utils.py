@@ -79,7 +79,7 @@ def wrapped_device_data_loader(dataloader, device):
     return dataloader
 
 
-def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
+def train(model, optimizer, criterion, epochs, batch_size, device, X, y, mmap=False):
     X, y = data.utils.ensure_tensors(X, y)
     dataset = torch.utils.data.TensorDataset(X, y)
     dataloader = wrapped_device_data_loader(
@@ -106,13 +106,14 @@ def train(model, optimizer, criterion, epochs, batch_size, device, X, y):
                 (output.detach().argmax(1) == target).float().mean().item()*batch_len)
     optimizer.zero_grad()
     #model.cpu()
-    model.mmap()
+    if mmap:
+        model.mmap()
     loss = sum(losses)/total_samples
     accuracy = sum(accuracies)/total_samples
     return loss, accuracy
 
 
-def predict(model, batch_size, device, X):
+def predict(model, batch_size, device, X, mmap=False):
     X = data.utils.ensure_tensors(X)[0]
     dataset = torch.utils.data.TensorDataset(X)
     dataloader = wrapped_device_data_loader(
@@ -124,10 +125,13 @@ def predict(model, batch_size, device, X):
     with torch.no_grad():
         for (in_data,) in dataloader:
             output = model(in_data)
-            outputs.append(output.cpu())
+            outputs.append(output)
+            #outputs.append(output.cpu())
     #model.cpu()
-    model.mmap()
-    return torch.cat(outputs)
+    if mmap:
+        model.mmap()
+    #return torch.cat(outputs).cpu()
+    return torch.cat(outputs).cpu()
 
 
 def evaluate(model, batch_size, device, X, y, criterion):
