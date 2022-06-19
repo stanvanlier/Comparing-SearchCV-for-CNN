@@ -55,8 +55,8 @@ plot_for_datasets = ['SVHN', 'MNIST']
 logy = False
 for ci, (col, nicename) in enumerate(histplot_for_params):
     fig, ax_ds = plt.subplots(1, len(plot_for_datasets), figsize=(7,3))
-    subr = results[results.extra__dataset==ds].sort_values(col)
     for di, ds in enumerate(plot_for_datasets):
+        subr = results[results.extra__dataset==ds].sort_values(col)
         ax = ax_ds[di]
         islastplot = di==len(plot_for_datasets)-1
         sns.histplot(ax=ax, data=subr, x=col,
@@ -81,8 +81,8 @@ plot_for_algos = ['Genetic', 'Random']
 logy = False
 for ci, (col, nicename) in enumerate(histplot_for_params):
     fig, ax_ds = plt.subplots(1, len(plot_for_algos), figsize=(7,3))
-    subr = results[results['Search Method']==ds].sort_values(col)
     for di, ds in enumerate(plot_for_algos):
+        subr = results[results['Search Method']==ds].sort_values(col)
         ax = ax_ds[di]
         islastplot = di==len(plot_for_algos)-1
         sns.histplot(ax=ax, data=subr, x=col,
