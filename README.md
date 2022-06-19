@@ -105,7 +105,7 @@ Setup a new virtual environment with:
 
 ```
 python3 -m venv venv
-source venv/bin/active
+source venv/bin/activate
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
 pip install numpy pandas sklearn
 pip install numpyencoder
@@ -116,7 +116,7 @@ python download.py
 ### Run
 
 ```
-source venv/bin/active
+source venv/bin/activate
 python main.py
 ```
 
@@ -125,3 +125,14 @@ python main.py
 The results of a successful experiment will look like this:
 
 ![experiment results](img/expResults.png?raw=true)
+
+
+## Figures
+
+When the experiments are done, figures can be created by running:
+
+```
+python analysis/generate_figures.py
+```
+
+
