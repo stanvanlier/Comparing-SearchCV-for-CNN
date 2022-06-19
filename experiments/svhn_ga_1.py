@@ -20,7 +20,7 @@ for i, problem_classes in enumerate(problems):
         'trials': 3, 
 
         # --- Dataset as a subset of some of its targets
-        'dataset': 'MNIST', #'SVHN',
+        'dataset': 'SVHN', #'MNIST',
         'classes': problem_classes,
 
         # --- Estimator with corresponding hyperparameters ---
@@ -32,7 +32,7 @@ for i, problem_classes in enumerate(problems):
             'tr_criterion': 'CrossEntropyLoss',
             'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
-            'tr_epochs': 10,
+            'tr_epochs': 1,
             # model's hyperparameters
 #            'mo_n_conv_layers': 3,
 #            'mo_last_channels': 20,
@@ -49,10 +49,10 @@ for i, problem_classes in enumerate(problems):
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
             'mo_n_conv_layers': Integer(1,3),
-            'mo_last_channels': Integer(10,100),
+            'mo_last_channels': Integer(10,500),
             'mo_pooling': Categorical(['MaxPool2d', 'AvgPool2d']),
             'mo_activation': Categorical(['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'Tanh', 'Sigmoid']),
-            'mo_conv_order': Categorical(['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n']),
+            'mo_conv_order': Categorical(['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n', '']),
 #            'mo_first_kernel_size': Integer(4,6),
 #            'mo_last_kernel_size': Integer(2,5),
 #            'mo_n_linear_layers': Integer(1,5),
@@ -61,7 +61,7 @@ for i, problem_classes in enumerate(problems):
         # --- Search method with corresponding parameters ---
         'search': GASearchCV, #RandomizedSearchCV,
         'search_params': dict( 
-            cv=StratifiedKFold(n_splits=5),
+            cv=StratifiedKFold(n_splits=3),
 #            cv=StratifiedShuffleSplit(n_splits=5, test_size=0.3),
             scoring="accuracy",
             population_size=10,
