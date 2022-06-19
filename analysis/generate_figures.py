@@ -72,5 +72,53 @@ for ci, (col, nicename) in enumerate(histplot_for_params):
     plt.tight_layout()
     plt.savefig(f'{FIG_DIR}/BestEsts_having_{col}.png', dpi=300)
 
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+
+plot_for_algos = ['Genetic', 'Random']
+         
+logy = False
+for ci, (col, nicename) in enumerate(histplot_for_params):
+    fig, ax_ds = plt.subplots(1, len(plot_for_algos), figsize=(7,3))
+    for di, ds in enumerate(plot_for_algos):
+        ax = ax_ds[di]
+        islastplot = di==len(plot_for_algos)-1
+        sns.histplot(ax=ax, data=results[results['Search Method']==ds], x=col,
+                    hue='N Classes', multiple='stack', log_scale=(False, logy),
+                    legend=islastplot,
+                    )
+        if islastplot:
+            sns.move_legend(ax, (1.03,0))
+        ax.set_title(ds)
+        ax.set_xlabel(nicename)
+        ax.set_ylabel('Occurance')
+        if results[col].dtype == np.dtype('O'):
+            ax.tick_params(axis='x', rotation=90)
+    plt.tight_layout()
+    plt.savefig(f'{FIG_DIR}/AlgoBestEsts_having_{col}.png', dpi=300)
+
+#####################################################
+
+
+renamed = results.rename(columns={k:v for k,v in histplot_for_params})
+renamed
+
+combi_vars = [v for _, v in histplot_for_params] + ['N Classes']
+combi_vars
+
+for di, ds in enumerate(plot_for_datasets):
+    g = sns.pairplot(
+    data=results[results['Dataset'] == ds], 
+    hue='Search Method',
+    kind='scatter',
+    vars=combi_vars,
+    diag_kind='kde',
+    plot_kws=dict(alpha=0.3),
+    diag_kws=dict(alpha=0),
+    corner=True,
+    )
+    plt.savefig(f'{FIG_DIR}/pairplot_{ds}.png', dpi=300)
+
+
 shutil.make_archive(f'figures', 'zip', f'{FIG_DIR}')
 
