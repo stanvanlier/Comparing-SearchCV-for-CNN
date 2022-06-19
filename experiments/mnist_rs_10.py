@@ -45,11 +45,11 @@ for i, problem_classes in enumerate(problems):
             # training process hyperparameters
 #            'tr_criterion': Categorical(['NLLLoss','CrossEntropyLoss']),
 #            'tr_optimizer': Categorical(['Adam','AdamW','Adamax','Adagrad','SGD']),
-            'tr_lr': Continuous(0, 0.5).sample(),
+            'tr_lr': Continuous(0, 0.5).sample,
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
-            'mo_n_conv_layers': Integer(1,3).sample(),
-            'mo_last_channels': Integer(10,500).sample(),
+            'mo_n_conv_layers': Integer(1,3).sample,
+            'mo_last_channels': Integer(10,500).sample,
             'mo_pooling': ['MaxPool2d', 'AvgPool2d'],
             'mo_activation': ['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'Tanh', 'Sigmoid'],
             'mo_conv_order': ['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n', ''],
