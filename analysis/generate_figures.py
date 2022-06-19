@@ -103,8 +103,16 @@ for ci, (col, nicename) in enumerate(histplot_for_params):
 renamed = results.rename(columns={k:v for k,v in histplot_for_params})
 renamed
 
-combi_vars = [v for _, v in histplot_for_params] + ['N Classes']
-combi_vars
+#combi_vars = [v for _, v in histplot_for_params] + ['N Classes']
+combi_vars = [
+ 'Learning Rate',
+ 'Number of Convolutional Layers',
+ 'Final Convolutional Layer Channels',
+ #'Pooling Method',
+ #'Activation',
+ #'Order after Each Convolution',
+ 'N Classes',
+]
 
 for di, ds in enumerate(plot_for_datasets):
     g = sns.pairplot(
