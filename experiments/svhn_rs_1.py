@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit, GridSearchCV, RandomizedSearchCV
 from sklearn_genetic import callbacks
 from sklearn_genetic import GASearchCV
+from scipy.stats import uniform, randint
 
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
@@ -45,11 +46,11 @@ for i, problem_classes in enumerate(problems):
             # training process hyperparameters
 #            'tr_criterion': Categorical(['NLLLoss','CrossEntropyLoss']),
 #            'tr_optimizer': Categorical(['Adam','AdamW','Adamax','Adagrad','SGD']),
-            'tr_lr': Continuous(0, 0.5).sample,
+            'tr_lr': uniform(0, 0.5),
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
-            'mo_n_conv_layers': Integer(1,3).sample,
-            'mo_last_channels': Integer(10,500).sample,
+            'mo_n_conv_layers': randint(1,3),
+            'mo_last_channels': randint(10,500),
             'mo_pooling': ['MaxPool2d', 'AvgPool2d'],
             'mo_activation': ['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'Tanh', 'Sigmoid'],
             'mo_conv_order': ['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n', ''],
