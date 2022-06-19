@@ -108,7 +108,7 @@ combi_vars
 
 for di, ds in enumerate(plot_for_datasets):
     g = sns.pairplot(
-    data=results[results['Dataset'] == ds], 
+    data=renamed[results['Dataset'] == ds], 
     hue='Search Method',
     kind='scatter',
     vars=combi_vars,
