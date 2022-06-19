@@ -18,7 +18,7 @@ experiments = Queue()
 for i, problem_classes in enumerate(problems):
     experiments.put((i, {
         # --- Number of times this experiment is repeated ---
-        'trials': 3, 
+        'trials': 1, 
 
         # --- Dataset as a subset of some of its targets
         'dataset': 'MNIST', #'SVHN',
@@ -66,12 +66,12 @@ for i, problem_classes in enumerate(problems):
 #            cv=StratifiedShuffleSplit(n_splits=5, test_size=0.3),
             scoring="accuracy",
             #population_size=10,
-            #generations=10,
+            #generations=5,
             #crossover_probability=0.9,
             #mutation_probability=0.03,
             #algorithm="eaSimple",
             return_train_score=True,
-            n_iter=100,
+            n_iter=50,
         ),
         'search_callbacks': [],
 #        'search_callbacks': [ callbacks.DeltaThreshold(threshold=1e-4, metric="fitness"),
