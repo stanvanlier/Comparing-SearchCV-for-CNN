@@ -63,7 +63,7 @@ for ci, (col, nicename) in enumerate(histplot_for_params):
                     legend=islastplot,
                     )
         if islastplot:
-            sns.move_legend(ax, (1.03,-0.2))
+            sns.move_legend(ax, (1.03,0))
         ax.set_title(ds)
         ax.set_xlabel(nicename)
         ax.set_ylabel('Occurance')
