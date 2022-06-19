@@ -1,4 +1,4 @@
-from multiprocessing import Queue
+from queue import Queue
 from sklearn_genetic.space import Categorical, Integer, Continuous
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit, GridSearchCV, RandomizedSearchCV
