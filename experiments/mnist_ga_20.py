@@ -32,7 +32,7 @@ for i, problem_classes in enumerate(problems):
             'tr_criterion': 'CrossEntropyLoss',
             'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
-            'tr_epochs': 30,
+            'tr_epochs': 20,
             # model's hyperparameters
 #            'mo_n_conv_layers': 3,
 #            'mo_last_channels': 20,
