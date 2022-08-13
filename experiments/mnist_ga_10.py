@@ -8,7 +8,7 @@ from sklearn_genetic import GASearchCV
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
-problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=2, maxlen=10)
+problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=2, maxlen=3)
 #problems = [[0,1,2,3,4,5,6,7,8,9]]
 print(f'Making {len(problems)} experiments for each of these class subselections of the dataset: ')
 print(problems)
@@ -32,7 +32,7 @@ for i, problem_classes in enumerate(problems):
             'tr_criterion': 'CrossEntropyLoss',
             'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
-            'tr_epochs': 10,
+            'tr_epochs': 30,
             # model's hyperparameters
 #            'mo_n_conv_layers': 3,
 #            'mo_last_channels': 20,
