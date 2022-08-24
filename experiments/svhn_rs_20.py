@@ -9,7 +9,7 @@ from scipy.stats import uniform, randint
 from src.estimators.cnn_classifier import CNNClassifier
 from src.run.run import subpowerset
 
-problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=2, maxlen=10)
+problems = subpowerset([0,1,2,3,4,5,6,7,8,9], minlen=2, maxlen=2)
 #problems = [[0,1,2,3,4,5,6,7,8,9]]
 print(f'Making {len(problems)} experiments for each of these class subselections of the dataset: ')
 print(problems)
@@ -18,7 +18,7 @@ experiments = Queue()
 for i, problem_classes in enumerate(problems):
     experiments.put((i, {
         # --- Number of times this experiment is repeated ---
-        'trials': 1, 
+        'trials': 3, 
 
         # --- Dataset as a subset of some of its targets
         'dataset': 'SVHN', #'MNIST',
@@ -33,7 +33,7 @@ for i, problem_classes in enumerate(problems):
             'tr_criterion': 'CrossEntropyLoss',
             'tr_optimizer': 'Adam',
 #            'tr_lr': 0.01,
-            'tr_epochs': 1,
+            'tr_epochs': 20,
             # model's hyperparameters
 #            'mo_n_conv_layers': 3,
 #            'mo_last_channels': 20,
@@ -49,8 +49,8 @@ for i, problem_classes in enumerate(problems):
             'tr_lr': uniform(0, 0.5),
 #            'tr_epochs': Integer(1,10),
             # model's hyperparameters
-            'mo_n_conv_layers': randint(1,3),
-            'mo_last_channels': randint(10,500),
+            'mo_n_conv_layers': randint(1,4),
+            'mo_last_channels': randint(10,501),
             'mo_pooling': ['MaxPool2d', 'AvgPool2d'],
             'mo_activation': ['Identity', 'LeakyReLU', 'PReLU', 'ReLU', 'Tanh', 'Sigmoid'],
             'mo_conv_order': ['anp', 'nap', 'pan', 'apn', 'npa', 'pna', 'an', 'na', 'np', 'pn', 'ap', 'pa', 'a', 'p', 'n', ''],
